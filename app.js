@@ -1,73 +1,47 @@
-const readline = require('readline');
+const fs = require('fs');
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+// fs.writeFile('example.txt', "// This is an example file.", (err) => {
+//     if (err) {
+//         console.log(err);
+//     } else {
+//         console.log("File seccessfuly created!");
+//         // this method to read the file in the termenal
+//         fs.readFile('example.txt', 'utf8', (err, file) => {
+//             if (err) {
+//                 console.log(err);
+//             } else {
+//                 console.log(file);
+//             }
+//         });
+//     }
+// });
 
-let num1 = Math.floor((Math.random() * 10) + 1);
-let num2 = Math.floor((Math.random() * 10) + 1);
-let answer = num1 + num2;
 
-rl.question(
-    `What is ${num1} + ${num2}? \n`,
-    (userInput) => {
-        if (userInput.trim() == answer) {
-            rl.close();
-        } else {
-            rl.setPrompt("Incorrect respon pleace try again \n");
-            rl.prompt();
-            rl.on('line', (userInput) => {
-                if (userInput.trim() == answer) {
-                    rl.close();
-                } else {
-                    rl.setPrompt(`Your answer \'${userInput}\' is incorrect - please try again. \n`);
-                    rl.prompt();
-                }
-            });
-        } 
+// // this method to rename the file.
+// fs.rename('example.txt', 'example-2.txt', (err) => {
+//     if (err) {
+//         console.log(err);
+//     } else {
+//         console.log("Created Successfuly.");
+//     }
+// });
+
+
+// // this method used to append sth to the file (if you forgot) 
+// fs.appendFile('example-2.txt', 'Some data being APPENDED', (err) => {
+//     if (err) {
+//         console.log(err);
+//     } else {
+//         console.log('file have been appended successfuly.');
+//     }
+// });
+
+
+// this method to delete file
+fs.unlink('example-2.txt', (err) => {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log("Successfuly deleted!");
     }
-);
-
-rl.on('close', () => {
-    console.log("Correct!!!!");
-});
-
-
-/*
-
-const readline = require('readline');
-
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
-
-function generateRandomNumbers() {
-    const num1 = Math.floor(Math.random() * 10) + 1;
-    const num2 = Math.floor(Math.random() * 10) + 1;
-    const answer = num1 + num2;
-    return { num1, num2, answer };
-}
-
-function askQuestion() {
-    const { num1, num2, answer } = generateRandomNumbers();
-    rl.question(`What is ${num1} + ${num2}? \n`, (userInput) => {
-        if (parseInt(userInput, 10) === answer) {
-            console.log("Correct!!!!");
-            rl.close();
-        } else {
-            console.log(`Your answer '${userInput}' is incorrect - please try again.`);
-            askQuestion(); // Re-ask the question
-        }
-    });
-}
-
-rl.on('close', () => {
-    console.log("Goodbye!");
-});
-
-askQuestion(); // Start asking the question
-
-
-*/
+})
