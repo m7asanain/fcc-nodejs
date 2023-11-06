@@ -1,37 +1,73 @@
-const { log } = require('console');
-const EventEmitter = require('events');
-const eventEmitter = new EventEmitter();
+const readline = require('readline');
 
-eventEmitter.on("tutorial", (num1, num2) => {
-    console.log(num1 + num2);
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
 });
 
-eventEmitter.emit('tutorial', 1, 2);
+let num1 = Math.floor((Math.random() * 10) + 1);
+let num2 = Math.floor((Math.random() * 10) + 1);
+let answer = num1 + num2;
 
-class Person extends EventEmitter {
-    constructor(name) {
-        super();
-        this._name = name;
+rl.question(
+    `What is ${num1} + ${num2}? \n`,
+    (userInput) => {
+        if (userInput.trim() == answer) {
+            rl.close();
+        } else {
+            rl.setPrompt("Incorrect respon pleace try again \n");
+            rl.prompt();
+            rl.on('line', (userInput) => {
+                if (userInput.trim() == answer) {
+                    rl.close();
+                } else {
+                    rl.setPrompt(`Your answer \'${userInput}\' is incorrect - please try again. \n`);
+                    rl.prompt();
+                }
+            });
+        } 
     }
+);
 
-    get name() {
-        return this._name;
-    }
+rl.on('close', () => {
+    console.log("Correct!!!!");
+});
+
+
+/*
+
+const readline = require('readline');
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+function generateRandomNumbers() {
+    const num1 = Math.floor(Math.random() * 10) + 1;
+    const num2 = Math.floor(Math.random() * 10) + 1;
+    const answer = num1 + num2;
+    return { num1, num2, answer };
 }
 
-let pedro = new Person("Pedro");
+function askQuestion() {
+    const { num1, num2, answer } = generateRandomNumbers();
+    rl.question(`What is ${num1} + ${num2}? \n`, (userInput) => {
+        if (parseInt(userInput, 10) === answer) {
+            console.log("Correct!!!!");
+            rl.close();
+        } else {
+            console.log(`Your answer '${userInput}' is incorrect - please try again.`);
+            askQuestion(); // Re-ask the question
+        }
+    });
+}
 
-pedro.on('name', () => {
-    console.log("My name is", pedro.name);
+rl.on('close', () => {
+    console.log("Goodbye!");
 });
 
-pedro.emit('name');
+askQuestion(); // Start asking the question
 
-// second preson
-let christina = new Person("Christina");
 
-christina.on("name", () => {
-    console.log("My name is " + christina.name);
-});
-
-christina.emit("name");
+*/
